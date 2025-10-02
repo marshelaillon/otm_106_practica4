@@ -2,13 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-# Crear carpeta output si no existe
 if not os.path.exists('output'):
     os.makedirs('output')
 
-# ========================================
-# PARTE 1: GRÁFICA DE BARRAS CON DATOS ESTÁTICOS
-# ========================================
 print("Generando gráfica de ejemplo con datos estáticos...")
 
 # Datos de ejemplo
@@ -26,11 +22,7 @@ plt.grid(axis='y', alpha=0.3)
 # Guardar la gráfica
 plt.savefig('output/grafica_ejemplo_estatica.png', dpi=300, bbox_inches='tight')
 plt.close()
-print("✓ Gráfica estática guardada: output/grafica_ejemplo_estatica.png\n")
-
-# ========================================
-# PARTE 2: LEER ARCHIVO EXCEL Y GENERAR GRÁFICAS
-# ========================================
+print("Gráfica estática guardada: output/grafica_ejemplo_estatica.png\n")
 
 # Ruta del archivo Excel
 archivo_excel = 'datos/datos_base.xlsx'
@@ -45,13 +37,9 @@ try:
     
     # Iterar sobre cada hoja
     for hoja in hojas:
-        print(f"Procesando hoja: {hoja}")
         
         # Leer datos de la hoja actual
         df = pd.read_excel(archivo_excel, sheet_name=hoja)
-        
-        print(f"  - Datos leídos: {len(df)} filas")
-        print(f"  - Columnas: {list(df.columns)}\n")
         
         # Verificar que existan las columnas necesarias
         # Ajusta estos nombres según las columnas reales de tu archivo
@@ -59,9 +47,6 @@ try:
         columna_valores = 'Valores' if 'Valores' in df.columns else df.columns[1]
         columna_porcentaje = 'Porcentaje' if 'Porcentaje' in df.columns else df.columns[2]
         
-        # ========================================
-        # GRÁFICA DE BARRAS con columna Valores
-        # ========================================
         plt.figure(figsize=(10, 6))
         plt.bar(df[columna_categoria], df[columna_valores], 
                 color='steelblue', edgecolor='black', alpha=0.8)
@@ -76,11 +61,7 @@ try:
         nombre_archivo_barras = f'output/barras_{hoja.replace(" ", "_")}.png'
         plt.savefig(nombre_archivo_barras, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f"  ✓ Gráfica de barras guardada: {nombre_archivo_barras}")
         
-        # ========================================
-        # GRÁFICA DE PASTEL con columna Porcentaje
-        # ========================================
         plt.figure(figsize=(10, 8))
         
         # Crear gráfica de pastel
@@ -102,13 +83,10 @@ try:
         nombre_archivo_pastel = f'output/pastel_{hoja.replace(" ", "_")}.png'
         plt.savefig(nombre_archivo_pastel, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f"  ✓ Gráfica de pastel guardada: {nombre_archivo_pastel}\n")
     
-    print("="*60)
-    print("✓ Proceso completado exitosamente")
-    print(f"✓ Total de hojas procesadas: {len(hojas)}")
-    print(f"✓ Gráficas generadas en la carpeta 'output/'")
-    print("="*60)
+    print("Proceso completado exitosamente")
+    print(f"Total de hojas procesadas: {len(hojas)}")
+    print(f"Gráficas generadas en la carpeta 'output/'")
 
 except FileNotFoundError:
     print(f"ERROR: No se encontró el archivo '{archivo_excel}'")
